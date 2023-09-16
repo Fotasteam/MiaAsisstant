@@ -8,7 +8,7 @@ MiaAsisstant is a simple and still customizable chat-gpt implementation in C#. I
 
 ### Intended use:
 
-I wanted to create an easily-understandable project that people can use to learn more about using ChatGPT in C#. It is great to understand the basics. For more information go to the [OpenAI Website](https://openai.com/) or [various sample projects available](https://platform.openai.com/examples)
+I wanted to create an easily-understandable project that people can use to learn more about using ChatGPT in C#. It is great to understand the basics. For more information go to the [OpenAI Website](https://openai.com/) or [various sample projects available](https://platform.openai.com/examples).
 
 ### Other Information:
 
