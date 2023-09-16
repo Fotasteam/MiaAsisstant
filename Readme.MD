@@ -16,7 +16,7 @@ This project is running on the UWP Framework. It also uses [WinUI 2.8.2](https:/
 
 ### Features:
 
-- **API Key TextBox** - You can test this application without modifying its code just by pasting your API Key (found here:)[https://platform.openai.com/account/api-keys].
+- **API Key TextBox** - You can test this application without modifying its code just by pasting your API Key [found here:](https://platform.openai.com/account/api-keys).
 - **Fake Memory** - Mia can "remember" past conversations. In reality, every conversation is saved using the ApplicationDataContainer. Every time on-launch the AI is fed this information using the ChatCompletionsOptions. You can always reset its memory by clicking the **AI Memory Reset** Button.
 - **Choose AI Model** - You can easily change AI models by selecting a different AI in the ComboBox.
 - **Temperature Selection** - Easily adjustable AI Temperature via a slider. You can read more about Temperature [here](https://platform.openai.com/docs/api-reference/chat). 
