@@ -1,0 +1,245 @@
+﻿<Page
+    x:Class="MiaAsisstant.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MiaAsisstant"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
+
+    <Grid Loaded="Grid_Loaded">
+        <muxc:ProgressRing HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="0,40,0,0"
+                           Foreground="Aqua"
+                           x:Name="loadingRing"/>
+        <Grid
+            x:Name="GridCenterBackground"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Width="650"
+            Height="850"
+            MaxHeight="1080"
+            Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+            Padding="12"
+            CornerRadius="3"/>
+        <ScrollViewer x:Name="ScrollViewerCenter"
+                      Margin="0,100,0,0"
+                      Height="850"
+                      HorizontalAlignment="Center"
+                      VerticalScrollBarVisibility="Visible"
+                      VerticalAlignment="Top">
+            <TextBlock TextWrapping="WrapWholeWords"
+                       Text=""
+                       x:Name="mainChat"
+                       Width="600"
+                       Height="Auto"
+                       Margin="0,100,0,0"
+                       TextAlignment="Center"
+                       FontSize="25"
+                       CanBeScrollAnchor="True"/>
+        </ScrollViewer>
+        <StackPanel Orientation="Horizontal"
+                 VerticalAlignment="Bottom"
+                 HorizontalAlignment="Center"
+                 Margin="0,0,0,50"
+                 Spacing="15">
+            <TextBox Width="400"
+                     Height="60"
+                     x:Name="message"
+                     PlaceholderText="Ask me anything..."
+                     FontSize="20"/>
+            <Button Width="60"
+                    Height="60"
+                    Content="Ask"
+                    Click="Button_Click"
+                    IsEnabled="False"
+                    x:Name="buttonASK"/>
+        </StackPanel>
+        <muxc:InfoBar x:Name="InfoBarPrematurelyExiting"
+            Severity="Warning"
+            Title="Do not shut down this program!"
+            Message="Shutting down during response generation may require the AI to reset its memory."
+            CloseButtonClick="InfoBarPrematurelyExiting_CloseButtonClick"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Center"
+            Width="500"/>
+
+        <Grid x:Name="GridLeftBackground"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Center"
+              Width="350"
+              Height="600"
+              MinHeight="600"
+              Margin="50,0,0,0"
+              Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+              Padding="12"
+              CornerRadius="3">
+            <Grid>
+                <Button x:Name="buttonDeleteMemory"
+                Content="AI Memory Reset"
+                Width="150"
+                Height="40"
+                HorizontalAlignment="Left"
+                Margin="10,0,0,10"
+                VerticalAlignment="Bottom"
+                Click="buttonDeleteMemory_Click"/>
+                <Button x:Name="buttonDeleteSettings"
+                        Content="Force Settings Reset"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Margin="0,0,10,10"
+                        Width="150"
+                        Height="40"
+                        Click="buttonDeleteSettings_Click"/>
+            </Grid>
+
+            <StackPanel Spacing="10">
+
+                <StackPanel Spacing="5">
+                    <TextBlock Margin="5,0,0,0"
+                               FontSize="16"> <Bold> OpenAI API Key </Bold></TextBlock>
+                    <Grid>
+                        <TextBox Height="20"
+                                 Width="200"
+                                 Margin="5,0,0,0"
+                                 HorizontalAlignment="Left"
+                                 x:Name="TextBoxApiKey"
+                                 PlaceholderText="Paste API Key here"
+                                 TextChanged="TextBoxApiKey_TextChanged"/>
+                        <CheckBox x:Name="CheckBoxApiKey"
+                                  Margin="210,0,0,0"
+                                  Content="Auto-Save"
+                                  Click="CheckBoxApiKey_Click"/>
+                    </Grid>
+                    <TextBlock FontSize="13"
+                           Margin="5,0,0,0"
+                           Foreground="Gray"
+                           TextWrapping="Wrap"> The API Key is requiered for the AI to work. Find out more on <Hyperlink NavigateUri="https://platform.openai.com/">OpenAI Developer Platform</Hyperlink>. </TextBlock>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Margin="5,0,0,0"
+                               FontSize="16"> <Bold> AI Model </Bold></TextBlock>
+                    <Grid>
+                        <ComboBox x:Name="ComboBoxAIModel"
+                                  PlaceholderText="Select AI Model"
+                                  Width="180"
+                                  HorizontalAlignment="Left"
+                                  Margin="10,0,0,0"
+                                  SelectionChanged="ComboBoxAIModel_SelectionChanged"/>
+                        <CheckBox x:Name="CheckBoxAIModel"
+                                  HorizontalAlignment="Right"
+                                  Margin="0,0,10,0"
+                                  Content="Custom Model"
+                                  Click="CheckBoxAIModel_Click"/>
+                    </Grid>
+                    <TextBlock FontSize="13"
+                           Margin="5,0,0,0"
+                           Foreground="Gray"
+                           TextWrapping="Wrap"> Defaults to <Bold>gpt-3.5-turbo</Bold> when custom model is inactive.</TextBlock>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Margin="5,0,0,0"
+                               FontSize="16"> <Bold> Temperature </Bold></TextBlock>
+                    <Slider x:Name="SliderTemperature"
+                        Minimum="0"
+                        Maximum="2"
+                        Width="300"
+                        StepFrequency="0.01"
+                        ValueChanged="SliderTemperature_ValueChanged"/>
+                    <TextBlock FontSize="13"
+                           Margin="5,0,0,0"
+                           Foreground="Gray"
+                           TextWrapping="Wrap"
+                           Text="Temperature is used to make outputs unique. Set around 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic."/>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Margin="5,0,0,0"
+                               FontSize="16"> <Bold> Initialization Message </Bold></TextBlock>
+                    <Grid>
+                        <CheckBox x:Name="CheckBoxInitializationMessage"
+                                  HorizontalAlignment="Right"
+                                  Margin="0,0,10,0"
+                                  Content="Toggle Initialization Message"
+                                  Click="CheckBoxInitializationMessage_Click"/>
+                        <ComboBox IsEnabled="False"
+                                  PlaceholderText="System"
+                                  Margin="10,0,0,0"/>
+                    </Grid>
+
+                    <TextBox Height="70"
+                             Width="300"
+                             Margin="0,0,0,0"
+                             HorizontalAlignment="Center"
+                             x:Name="TextBoxInitializationMessage"
+                             PlaceholderText="Paste Initialization Message here: (ex. 'You are a helpful assistant, answer any questions given.')"
+                             TextWrapping="Wrap"
+                             TextChanged="TextBoxInitializationMessage_TextChanged"/>
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+
+        <!--<Grid x:Name="GridRightBackground"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Center"
+              Width="350"
+              Height="600"
+              MinHeight="600"
+              Margin="0,0,50,0"
+              Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+              Padding="12"
+              CornerRadius="3">
+
+            <StackPanel Spacing="10">
+
+                <StackPanel Spacing="5">
+                    <TextBlock Margin="0,0,5,0"
+                               TextAlignment="Right"
+                               FontSize="16"> <Bold> Conversations Browser </Bold></TextBlock>
+
+                    <Grid>
+                        <ComboBox x:Name="ComboBoxConversationsBrowser"
+                                  HorizontalAlignment="Left"
+                                  Width="275"
+                                  Height="36"
+                                  Margin="5,0,0,0"
+                                  SelectionChanged="ComboBoxConversationsBrowser_SelectionChanged"/>
+                        <Button x:Name="ButtonConversationsBrowser"
+                                HorizontalAlignment="Right"
+                                Height="36"
+                                Width="36"
+                                FontFamily="Segoe MDL2 Assets"
+                                Content="&#xE74D;"
+                                Margin="0,0,5,0"
+                                Click="ButtonConversationsBrowser_Click"/>
+                    </Grid>
+
+                    <TextBox Height="100"
+                             Width="316"
+                             Margin="0,0,0,0"
+                             HorizontalAlignment="Center"
+                             x:Name="TextBoxConversationsBrowser"
+                             PlaceholderText="Select a conversation to view/edit it."
+                             TextWrapping="Wrap"
+                             TextChanged="TextBoxConversationsBrowser_TextChanged"/>
+
+                    <TextBlock FontSize="13"
+                           Margin="0,0,5,0"
+                           Foreground="Gray"
+                           TextAlignment="Right"
+                           TextWrapping="Wrap"> Provides the ability to view and edit previous conversations with the model.</TextBlock>
+
+                </StackPanel>
+                
+            </StackPanel>
+            
+        </Grid>-->
+    </Grid>
+</Page>
